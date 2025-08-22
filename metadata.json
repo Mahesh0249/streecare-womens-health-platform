@@ -1,0 +1,5 @@
+{
+  "name": "StreeCare - Women's Health Platform",
+  "description": "A comprehensive web application for women's health management featuring role-based access for patients and doctors, an AI health companion, appointment scheduling, and health tracking tools.",
+  "requestFramePermissions": []
+}
