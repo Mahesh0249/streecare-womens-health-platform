@@ -18,7 +18,7 @@ dist-ssr
 .env.local
 .env.production
 backend/.env
-backend/config/secrets.js
+
 
 # Editor directories and files
 .vscode/*
