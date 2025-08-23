@@ -13,13 +13,15 @@ export interface User {
 
 export interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string, role: UserRole) => Promise<void>;
   signup: (name: string, email: string, password: string, role: UserRole) => Promise<void>;
   logout: () => void;
   loading: boolean;
   isOffline: boolean;
   isCheckingStatus: boolean;
-  retryConnection: () => Promise<void>;
+  retryConnection: () => void;
+  updateUserProfile: (userId: string, updatedFields: Partial<User>) => Promise<User>;
+  changeUserPassword: (userId: string, currentPassword: string, newPassword: string) => Promise<void>;
 }
 
 export type Language = 'en' | 'te' | 'hi';

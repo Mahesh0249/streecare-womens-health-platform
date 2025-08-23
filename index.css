@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary-50: #ffece9;
+  --color-primary-100: #ffd8d1;
+  --color-primary-200: #ffb1a2;
+  --color-primary-300: #ff8b73;
+  --color-primary-400: #ff6445;
+  --color-primary-500: #FF5238; /* Jeton's primary red */
+  --color-primary-600: #e64a32;
+  --color-primary-700: #cc422b;
+  --color-primary-800: #b33925;
+  --color-primary-900: #99311e;
+
+  --color-secondary-50: #e6ffe6;
+  --color-secondary-100: #ccffcc;
+  --color-secondary-200: #99ff99;
+  --color-secondary-300: #66ff66;
+  --color-secondary-400: #33ff33;
+  --color-secondary-500: #2ECC71; /* Vibrant Green */
+  --color-secondary-600: #28b662;
+  --color-secondary-700: #239f56;
+  --color-secondary-800: #1e884a;
+  --color-secondary-900: #19713e;
+
+  --color-accent-50: #e6f7ff;
+  --color-accent-100: #ccedff;
+  --color-accent-200: #99daff;
+  --color-accent-300: #66c8ff;
+  --color-accent-400: #33b5ff;
+  --color-accent-500: #3498DB; /* Clear Blue */
+  --color-accent-600: #2f87c4;
+  --color-accent-700: #2a76ac;
+  --color-accent-800: #256595;
+  --color-accent-900: #20547d;
+}
+
+.dark {
+  --color-primary-50: #99311e;
+  --color-primary-100: #b33925;
+  --color-primary-200: #cc422b;
+  --color-primary-300: #e64a32;
+  --color-primary-400: #FF5238;
+  --color-primary-500: #ff6445;
+  --color-primary-600: #ff8b73;
+  --color-primary-700: #ffb1a2;
+  --color-primary-800: #ffd8d1;
+  --color-primary-900: #ffece9;
+
+  --color-secondary-50: #19713e;
+  --color-secondary-100: #1e884a;
+  --color-secondary-200: #239f56;
+  --color-secondary-300: #28b662;
+  --color-secondary-400: #2ECC71;
+  --color-secondary-500: #33ff33;
+  --color-secondary-600: #66ff66;
+  --color-secondary-700: #99ff99;
+  --color-secondary-800: #ccffcc;
+  --color-secondary-900: #e6ffe6;
+
+  --color-accent-50: #20547d;
+  --color-accent-100: #256595;
+  --color-accent-200: #2a76ac;
+  --color-accent-300: #2f87c4;
+  --color-accent-400: #3498DB;
+  --color-accent-500: #33b5ff;
+  --color-accent-600: #66c8ff;
+  --color-accent-700: #99daff;
+  --color-accent-800: #ccedff;
+  --color-accent-900: #e6f7ff;
+}
+
+/* Global styles for backgrounds, text, and other elements */
+body {
+  @apply bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200;
+  background-image: linear-gradient(135deg, var(--color-primary-50) 10%, var(--color-secondary-50) 100%);
+  background-attachment: fixed;
+}
+
+.dark body {
+  background-image: linear-gradient(135deg, var(--color-primary-900) 10%, var(--color-secondary-900) 100%);
+}
+
+/* Example: Customizing default Tailwind classes */
+.btn-primary {
+  @apply bg-[var(--color-accent-500)] text-white font-bold py-2 px-4 rounded-lg hover:bg-[var(--color-accent-600)] transition-colors duration-200;
+}
+
+.btn-secondary {
+  @apply bg-[var(--color-accent-500)] text-white font-bold py-2 px-4 rounded-lg hover:bg-[var(--color-accent-600)] transition-colors duration-200;
+}
+
+.card {
+  @apply bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+.animate-pulse-subtle {
+  animation: pulse 1.5s infinite ease-in-out;
+}

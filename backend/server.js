@@ -10,6 +10,7 @@ const appointmentRoutes = require('./routes/appointments');
 const forumRoutes = require('./routes/forum');
 const trackerRoutes = require('./routes/tracker');
 const musicRoutes = require('./routes/music');
+const meetingsRoutes = require('./routes/meetings');
 
 const app = express();
 
@@ -33,8 +34,17 @@ app.use('/api/appointments', appointmentRoutes);
 app.use('/api/forum', forumRoutes);
 app.use('/api/menstrual', trackerRoutes);
 app.use('/api/music', musicRoutes);
+app.use('/api/meetings', meetingsRoutes);
 
+// Error handling middleware (catch-all for unhandled errors)
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(err.statusCode || 500).json({
+        message: err.message || 'An unexpected error occurred',
+        stack: process.env.NODE_ENV === 'production' ? null : err.stack,
+    });
+});
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3002;
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

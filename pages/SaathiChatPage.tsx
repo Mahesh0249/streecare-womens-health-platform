@@ -29,9 +29,9 @@ const SaathiChatPage: React.FC = () => {
             setMessages([]);
         } catch (error) {
             console.error("Failed to initialize chat:", error);
-            setMessages([{ role: 'model', text: 'Sorry, I am unable to connect right now.' }]);
+            setMessages([{ role: 'model', text: t('saathi.troubleResponding') }]);
         }
-    }, [language]);
+    }, [language, t]);
 
     useEffect(() => {
         initializeChat();
@@ -46,38 +46,40 @@ const SaathiChatPage: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const stream = await chatSession.sendMessageStream({ message: input });
+            const streamResult = await chatSession.sendMessageStream({ message: input });
             let modelResponse = '';
             setMessages(prev => [...prev, { role: 'model', text: '' }]);
 
-            for await (const chunk of stream) {
-                modelResponse += chunk.text;
-                setMessages(prev => {
-                    const newMessages = [...prev];
-                    newMessages[newMessages.length - 1] = { role: 'model', text: modelResponse };
-                    return newMessages;
-                });
+            for await (const chunk of streamResult) {
+                if (chunk.text) {
+                    modelResponse += chunk.text;
+                    setMessages(prev => {
+                        const newMessages = [...prev];
+                        newMessages[newMessages.length - 1] = { role: 'model', text: modelResponse };
+                        return newMessages;
+                    });
+                }
             }
         } catch (error) {
             console.error("Error sending message:", error);
-            setMessages(prev => [...prev, { role: 'model', text: "I'm having trouble responding right now. Please try again later." }]);
+            setMessages(prev => [...prev, { role: 'model', text: t('saathi.troubleResponding') }]);
         } finally {
             setIsLoading(false);
         }
     };
 
     return (
-        <div className="flex flex-col h-full bg-white rounded-lg shadow-md">
-            <div className="p-4 border-b">
-                <h1 className="text-2xl font-bold text-gray-800">{t('saathi.title')}</h1>
-                <p className="text-sm text-gray-500">{t('saathi.description')}</p>
+        <div className="flex flex-col h-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+                <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">{t('saathi.title')}</h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{t('saathi.description')}</p>
             </div>
-            <div className="flex-1 p-4 overflow-y-auto">
+            <div className="flex-1 p-4 overflow-y-auto bg-gray-50 dark:bg-gray-900">
                 <div className="space-y-4">
                     {messages.map((msg, index) => (
                         <div key={index} className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : ''}`}>
-                            {msg.role === 'model' && <div className="w-8 h-8 rounded-full bg-rose-500 flex items-center justify-center text-white flex-shrink-0"><BotIcon className="w-5 h-5"/></div>}
-                            <div className={`max-w-xl p-3 rounded-lg ${msg.role === 'user' ? 'bg-rose-500 text-white' : 'bg-gray-100 text-gray-800'}`}>
+                            {msg.role === 'model' && <div className="w-8 h-8 rounded-full bg-rose-600 dark:bg-rose-700 flex items-center justify-center text-white flex-shrink-0"><BotIcon className="w-5 h-5"/></div>}
+                            <div className={`max-w-xl p-3 rounded-lg shadow-sm ${msg.role === 'user' ? 'bg-rose-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}>
                                 <p className="whitespace-pre-wrap">{msg.text}{isLoading && msg.role === 'model' && index === messages.length -1 ? '...' : ''}</p>
                             </div>
                         </div>
@@ -85,8 +87,8 @@ const SaathiChatPage: React.FC = () => {
                     <div ref={messagesEndRef} />
                 </div>
             </div>
-            <div className="p-4 border-t">
-                <div className="flex items-center bg-gray-100 rounded-lg">
+            <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg shadow-sm">
                     <label htmlFor="chat-input" className="sr-only">{t('saathi.placeholder')}</label>
                     <input
                         id="chat-input"
@@ -95,10 +97,10 @@ const SaathiChatPage: React.FC = () => {
                         onChange={(e) => setInput(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                         placeholder={t('saathi.placeholder')}
-                        className="flex-1 bg-transparent p-3 focus:outline-none"
+                        className="flex-1 bg-transparent p-3 focus:outline-none text-gray-900 dark:text-gray-100"
                         disabled={isLoading}
                     />
-                    <button onClick={handleSend} disabled={isLoading || !input.trim()} className="p-3 text-rose-500 disabled:text-gray-400" aria-label="Send message">
+                    <button onClick={handleSend} disabled={isLoading || !input.trim()} className="p-3 text-rose-600 dark:text-rose-400 disabled:text-gray-400 dark:disabled:text-gray-500" aria-label="Send message">
                         <SendIcon className="w-6 h-6" />
                     </button>
                 </div>

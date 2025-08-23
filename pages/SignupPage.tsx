@@ -89,146 +89,136 @@ const SignupPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-rose-50 py-8">
-            <div className="flex w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden m-4">
-                {/* Form Section */}
-                <div className="w-full md:w-1/2 p-8">
-                    <div className="text-center mb-6">
-                        <h1 className="text-3xl font-bold text-rose-600">{t('signup.title')}</h1>
-                        <p className="text-gray-500 mt-2">{t('signup.subtitle')}</p>
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--color-primary-500)] text-white p-4 sm:p-8 transition-colors duration-200">
+            <div className="relative z-10 w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 sm:p-10 text-center animate-fade-in">
+                <h1 className="text-4xl sm:text-5xl font-extrabold text-[var(--color-primary-600)] dark:text-[var(--color-primary-400)] mb-4">
+                    {t('signup.title')}
+                </h1>
+                <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 mb-8">
+                    {t('signup.subtitle')}
+                </p>
+
+                {isOffline && (
+                    <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded" role="alert">
+                        <p className="font-bold">Offline Demo Mode</p>
+                        <p className="text-sm">You can sign up with any details to explore the app. Your data will not be saved.</p>
                     </div>
-                     {isOffline && (
-                        <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded" role="alert">
-                            <p className="font-bold">Offline Demo Mode</p>
-                            <p className="text-sm">You can sign up with any details to explore the app. Your data will not be saved.</p>
-                        </div>
-                    )}
-                    <form onSubmit={handleSubmit} noValidate>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
-                                {t('signup.name')}
-                            </label>
-                            <input
-                                id="name"
-                                name="name"
-                                type="text"
-                                value={formData.name}
-                                onChange={handleChange}
-                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 ${errors.name ? 'border-red-500' : 'focus:ring-rose-500'}`}
-                                required
-                                disabled={isSigningUp}
-                                placeholder={t('signup.name.placeholder')}
-                            />
-                            {errors.name && <p className="text-red-500 text-xs italic mt-1">{errors.name}</p>}
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                                {t('login.email')}
-                            </label>
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 ${errors.email ? 'border-red-500' : 'focus:ring-rose-500'}`}
-                                required
-                                disabled={isSigningUp}
-                                placeholder="you@example.com"
-                            />
-                            {errors.email && <p className="text-red-500 text-xs italic mt-1">{errors.email}</p>}
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                                {t('login.password')}
-                            </label>
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 ${errors.password ? 'border-red-500' : 'focus:ring-rose-500'}`}
-                                required
-                                disabled={isSigningUp}
-                                placeholder="••••••••"
-                            />
-                             {errors.password && <p className="text-red-500 text-xs italic mt-1">{errors.password}</p>}
-                        </div>
-                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirmPassword">
-                               {t('signup.password.confirm')}
-                            </label>
-                            <input
-                                id="confirmPassword"
-                                name="confirmPassword"
-                                type="password"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 ${errors.confirmPassword ? 'border-red-500' : 'focus:ring-rose-500'}`}
-                                required
-                                disabled={isSigningUp}
-                                placeholder="••••••••"
-                            />
-                             {errors.confirmPassword && <p className="text-red-500 text-xs italic mt-1">{errors.confirmPassword}</p>}
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2">{t('signup.role')}</label>
-                            <div className="flex items-center justify-around">
-                                <label className="flex items-center space-x-2 cursor-pointer">
-                                    <input
-                                        type="radio"
-                                        name="role"
-                                        value={UserRole.PATIENT}
-                                        checked={role === UserRole.PATIENT}
-                                        onChange={() => setRole(UserRole.PATIENT)}
-                                        className="form-radio text-rose-500 focus:ring-rose-500"
-                                        disabled={isSigningUp}
-                                    />
-                                    <span>{t('signup.role.patient')}</span>
-                                </label>
-                                <label className="flex items-center space-x-2 cursor-pointer">
-                                    <input
-                                        type="radio"
-                                        name="role"
-                                        value={UserRole.DOCTOR}
-                                        checked={role === UserRole.DOCTOR}
-                                        onChange={() => setRole(UserRole.DOCTOR)}
-                                        className="form-radio text-rose-500 focus:ring-rose-500"
-                                        disabled={isSigningUp}
-                                    />
-                                    <span>{t('signup.role.doctor')}</span>
-                                </label>
-                            </div>
-                        </div>
-                        {apiError && <p className="text-red-500 text-xs italic mb-4 text-center">{apiError}</p>}
-                        <div className="flex items-center justify-between">
-                            <button
-                                type="submit"
-                                className="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 disabled:bg-rose-300"
-                                disabled={isSigningUp}
-                            >
-                                {isSigningUp ? t('signup.button.loading') : t('signup.button')}
-                            </button>
-                        </div>
-                    </form>
-                    <div className="mt-6 text-center text-sm text-gray-600">
-                        <p>
-                            {t('signup.haveAccount')}{' '}
-                            <Link to="/login" className="font-semibold text-rose-500 hover:text-rose-600">
-                                {t('signup.logIn')}
-                            </Link>
-                        </p>
+                )}
+                {apiError && <p className="text-red-500 mb-4 text-sm">{apiError}</p>}
+
+                <form onSubmit={handleSubmit} noValidate className="space-y-6">
+                    <div>
+                        <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2 text-left" htmlFor="name">
+                            {t('signup.name')}
+                        </label>
+                        <input
+                            id="name"
+                            name="name"
+                            type="text"
+                            value={formData.name}
+                            onChange={handleChange}
+                            className={`w-full px-5 py-3 border rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent ${errors.name ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`}
+                            required
+                            disabled={isSigningUp}
+                            placeholder={t('signup.name.placeholder')}
+                        />
+                        {errors.name && <p className="text-red-500 text-xs italic mt-1 text-left">{errors.name}</p>}
                     </div>
-                </div>
-                 {/* Image Section */}
-                 <div className="hidden md:block md:w-1/2">
-                    <img 
-                        src="https://images.unsplash.com/photo-1622253692010-33352f4568d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-                        alt="Female doctor smiling" 
-                        className="w-full h-full object-cover" 
-                    />
-                </div>
+                    <div>
+                        <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2 text-left" htmlFor="email">
+                            {t('login.email')}
+                        </label>
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            className={`w-full px-5 py-3 border rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent ${errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`}
+                            required
+                            disabled={isSigningUp}
+                            placeholder="you@example.com"
+                        />
+                        {errors.email && <p className="text-red-500 text-xs italic mt-1 text-left">{errors.email}</p>}
+                    </div>
+                    <div>
+                        <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2 text-left" htmlFor="password">
+                            {t('login.password')}
+                        </label>
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            className={`w-full px-5 py-3 border rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent ${errors.password ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`}
+                            required
+                            disabled={isSigningUp}
+                            placeholder="••••••••"
+                        />
+                         {errors.password && <p className="text-red-500 text-xs italic mt-1 text-left">{errors.password}</p>}
+                    </div>
+                     <div>
+                        <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2 text-left" htmlFor="confirmPassword">
+                           {t('signup.password.confirm')}
+                        </label>
+                        <input
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            type="password"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            className={`w-full px-5 py-3 border rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`}
+                            required
+                            disabled={isSigningUp}
+                            placeholder="••••••••"
+                        />
+                         {errors.confirmPassword && <p className="text-red-500 text-xs italic mt-1 text-left">{errors.confirmPassword}</p>}
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2 text-left">{t('signup.role')}</label>
+                        <div className="flex items-center justify-around space-x-4">
+                            <label className="flex items-center space-x-2 cursor-pointer">
+                                <input
+                                    type="radio"
+                                    name="role"
+                                    value={UserRole.PATIENT}
+                                    checked={role === UserRole.PATIENT}
+                                    onChange={() => setRole(UserRole.PATIENT)}
+                                    className="form-radio text-[var(--color-primary-500)] focus:ring-[var(--color-primary-500)]"
+                                    disabled={isSigningUp}
+                                />
+                                <span className="text-gray-700 dark:text-gray-200">{t('signup.role.patient')}</span>
+                            </label>
+                            <label className="flex items-center space-x-2 cursor-pointer">
+                                <input
+                                    type="radio"
+                                    name="role"
+                                    value={UserRole.DOCTOR}
+                                    checked={role === UserRole.DOCTOR}
+                                    onChange={() => setRole(UserRole.DOCTOR)}
+                                    className="form-radio text-[var(--color-primary-500)] focus:ring-[var(--color-primary-500)]"
+                                    disabled={isSigningUp}
+                                />
+                                <span className="text-gray-700 dark:text-gray-200">{t('signup.role.doctor')}</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button
+                        type="submit"
+                        className="w-full bg-[var(--color-primary-500)] hover:bg-[var(--color-primary-600)] text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary-500)] disabled:opacity-50 disabled:cursor-not-allowed transition duration-200"
+                        disabled={isSigningUp}
+                    >
+                        {isSigningUp ? t('signup.button.loading') : t('signup.button')}
+                    </button>
+                </form>
+                
+                <p className="mt-6 text-gray-700 dark:text-gray-300">
+                    {t('signup.haveAccount')}{' '}
+                    <Link to="/login" className="text-[var(--color-primary-600)] dark:text-[var(--color-primary-400)] hover:underline font-medium">
+                        {t('signup.logIn')}
+                    </Link>
+                </p>
             </div>
         </div>
     );

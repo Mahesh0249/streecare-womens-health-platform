@@ -5,6 +5,8 @@ const { JWT_SECRET } = require('../config/secrets');
 exports.protect = async (req, res, next) => {
     let token;
 
+    console.log('JWT_SECRET in authMiddleware:', JWT_SECRET); // Debugging line
+
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
             // Get token from header
@@ -27,6 +29,7 @@ exports.protect = async (req, res, next) => {
                 id: userDoc.id,
                 ...userData
             };
+            console.log('req.user after authentication:', req.user); // Debugging line
             
             next();
         } catch (error) {
@@ -36,6 +39,7 @@ exports.protect = async (req, res, next) => {
     }
 
     if (!token) {
-        res.status(401).json({ message: 'Not authorized, no token' });
+        console.error('No token provided in authorization header.');
+        return res.status(401).json({ message: 'Not authorized, no token' });
     }
 };

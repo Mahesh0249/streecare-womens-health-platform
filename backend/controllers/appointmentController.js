@@ -2,6 +2,7 @@ const { db } = require('../config/firebase');
 
 exports.getAppointments = async (req, res) => {
     const { id, role } = req.user;
+    console.log('getAppointments: User ID and Role:', { id, role });
 
     try {
         let query;
@@ -17,10 +18,13 @@ exports.getAppointments = async (req, res) => {
              return res.status(403).json({ message: 'Forbidden' });
         }
 
+        console.log('getAppointments: Constructed Firestore query for user role:', role);
         const snapshot = await query.get();
+        console.log('getAppointments: Number of appointment documents found:', snapshot.docs.length);
 
         const appointmentsPromises = snapshot.docs.map(async (doc) => {
             const apptData = doc.data();
+            console.log('getAppointments: Processing appointment data:', apptData);
             let relatedUserName = 'N/A';
 
             try {
@@ -45,6 +49,7 @@ exports.getAppointments = async (req, res) => {
         });
 
         const appointments = await Promise.all(appointmentsPromises);
+        console.log('getAppointments: Final appointments array:', appointments);
         res.json(appointments);
 
     } catch (error) {
